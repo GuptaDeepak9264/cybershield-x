@@ -28,6 +28,8 @@ services:
         sync: false
       - key: DB_PORT
         value: "3306"
+      - key: PYTHON_VERSION
+        value: 3.11.0
       - key: JWT_SECRET
         sync: false  # must match fastapi/flask services exactly
       - key: JWT_EXPIRATION_MINUTES
@@ -75,6 +77,8 @@ services:
         sync: false
       - key: DB_PASSWORD
         sync: false
+      - key: PYTHON_VERSION
+        value: 3.11.0
       - key: DB_HOST
         sync: false
       - key: DB_PORT
@@ -110,6 +114,8 @@ services:
         sync: false  # must match django/fastapi services exactly
       - key: USE_S3
         value: "True"
+      - key: PYTHON_VERSION
+        value: 3.11.0
       - key: AWS_ACCESS_KEY_ID
         sync: false
       - key: AWS_SECRET_ACCESS_KEY
