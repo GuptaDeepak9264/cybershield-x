@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Scan History | CyberShield X{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Scan History</h2>
+    <a href="{% url 'security:export_my_scans_csv' %}" class="btn btn-outline-info btn-sm">Export CSV</a>
+</div>
+<div class="table-responsive">
+    <table class="table table-dark table-hover align-middle">
+        <thead><tr><th>Type</th><th>Target</th><th>Status</th><th>Score</th><th>Submitted</th></tr></thead>
+        <tbody>
+        {% for scan in page_obj %}
+            <tr>
+                <td>{{ scan.get_scan_type_display }}</td>
+                <td class="text-truncate" style="max-width: 320px;">{{ scan.target }}</td>
+                <td><span class="badge badge-status-{{ scan.status }}">{{ scan.get_status_display }}</span></td>
+                <td>{{ scan.security_score|default:"—" }}</td>
+                <td class="text-body-secondary small">{{ scan.created_at|date:"M d, Y H:i" }}</td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="5" class="text-body-secondary">No scans yet.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% include "partials/pagination.html" %}
+{% endblock %}

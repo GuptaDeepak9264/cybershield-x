@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Admin Console | CyberShield X{% endblock %}
+{% block content %}
+<h2 class="mb-1">Admin Console</h2>
+<p class="text-body-secondary mb-4">System-wide overview.</p>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="stat-card p-3">
+            <div class="text-body-secondary small">Students</div>
+            <div class="fs-2 fw-semibold">{{ total_students }}</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card p-3">
+            <div class="text-body-secondary small">Admins</div>
+            <div class="fs-2 fw-semibold">{{ total_admins }}</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card p-3">
+            <div class="text-body-secondary small">Total Scans</div>
+            <div class="fs-2 fw-semibold">{{ total_scans }}</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card p-3">
+            <div class="text-body-secondary small">Malicious Flags</div>
+            <div class="fs-2 fw-semibold text-danger">{{ malicious_count }}</div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="stat-card p-3">
+            <div class="text-body-secondary small">Threat DB Entries</div>
+            <div class="fs-2 fw-semibold text-info">{{ threat_count }}</div>
+        </div>
+    </div>
+</div>
+
+<h5 class="mb-3">Recent Scan Activity (All Users)</h5>
+{% if recent_scans %}
+<div class="table-responsive">
+    <table class="table table-dark table-hover align-middle">
+        <thead><tr><th>User</th><th>Type</th><th>Target</th><th>Status</th><th>Submitted</th></tr></thead>
+        <tbody>
+        {% for scan in recent_scans %}
+            <tr>
+                <td>{{ scan.user.username }}</td>
+                <td>{{ scan.get_scan_type_display }}</td>
+                <td class="text-truncate" style="max-width: 280px;">{{ scan.target }}</td>
+                <td><span class="badge badge-status-{{ scan.status }}">{{ scan.get_status_display }}</span></td>
+                <td class="text-body-secondary small">{{ scan.created_at|date:"M d, H:i" }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<a href="{% url 'security:admin_logs' %}" class="small">View all logs &rarr;</a>
+{% else %}
+<p class="text-body-secondary">No scans have been submitted yet.</p>
+{% endif %}
+{% endblock %}

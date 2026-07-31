@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Notifications | CyberShield X{% endblock %}
+{% block content %}
+<h2 class="mb-4">Notifications</h2>
+{% for n in notifications %}
+    <div class="card border-secondary-subtle mb-2 {% if not n.is_broadcast and not n.is_read %}border-info{% endif %}">
+        <div class="card-body py-3">
+            <div class="d-flex justify-content-between">
+                <h6 class="mb-1">{{ n.title }}
+                    {% if n.is_broadcast %}<span class="badge text-bg-secondary">Announcement</span>{% endif %}
+                </h6>
+                <span class="text-body-secondary small">{{ n.created_at|date:"M d, Y H:i" }}</span>
+            </div>
+            <p class="mb-2">{{ n.message }}</p>
+            {% if not n.is_broadcast and not n.is_read %}
+                <form method="post" action="{% url 'notifications:mark_read' n.id %}">
+                    {% csrf_token %}
+                    <button class="btn btn-sm btn-outline-info">Mark as read</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+{% empty %}
+    <p class="text-body-secondary">Nothing here yet.</p>
+{% endfor %}
+{% endblock %}

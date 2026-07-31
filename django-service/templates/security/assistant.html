@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}AI Security Assistant | CyberShield X{% endblock %}
+{% block content %}
+<h2 class="mb-1">AI Security Assistant</h2>
+<p class="text-body-secondary mb-4">Ask about phishing, passwords, MFA, VPNs, firewalls, malware, or ransomware.</p>
+
+<div class="card border-secondary-subtle mb-4" style="max-width: 640px;">
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <textarea name="message" class="form-control" rows="3" placeholder="e.g. how do I spot a phishing email?" required>{{ question }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-info">Ask</button>
+        </form>
+    </div>
+</div>
+
+{% if reply %}
+<div class="card border-info" style="max-width: 640px;">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start mb-2">
+            <h6 class="mb-0">Response</h6>
+            <span class="badge {% if mode == 'llm' %}text-bg-info{% else %}text-bg-secondary{% endif %}">
+                {% if mode == "llm" %}AI-generated{% else %}Rule-based fallback{% endif %}
+            </span>
+        </div>
+        <p class="mb-0">{{ reply }}</p>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

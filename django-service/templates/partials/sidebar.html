@@ -1,0 +1,26 @@
+{% if user.is_authenticated %}
+<nav class="sidebar d-flex flex-column p-3">
+    {% if user.role == "STUDENT" %}
+        <div class="text-uppercase small text-body-secondary mb-2 px-2">Welcome, {{ user.username }}</div>
+        <a class="nav-link {% if request.resolver_match.url_name == 'student_dashboard' %}active{% endif %}" href="{% url 'accounts:student_dashboard' %}">Dashboard</a>
+        <a class="nav-link {% if request.resolver_match.url_name == 'upload_file' %}active{% endif %}" href="{% url 'security:upload_file' %}">Scan a File</a>
+        <a class="nav-link {% if request.resolver_match.url_name == 'scan_url' %}active{% endif %}" href="{% url 'security:scan_url' %}">Scan a URL</a>
+        <a class="nav-link {% if request.resolver_match.url_name == 'password_checker' %}active{% endif %}" href="{% url 'security:password_checker' %}">Password Checker</a>
+        <a class="nav-link {% if request.resolver_match.url_name == 'history' %}active{% endif %}" href="{% url 'security:history' %}">Scan History</a>
+        <a class="nav-link {% if request.resolver_match.url_name == 'reports' %}active{% endif %}" href="{% url 'security:reports' %}">My Reports</a>
+        <a class="nav-link {% if request.resolver_match.url_name == 'assistant' %}active{% endif %}" href="{% url 'security:assistant' %}">AI Assistant</a>
+        <a class="nav-link {% if request.resolver_match.url_name == 'inbox' %}active{% endif %}" href="{% url 'notifications:inbox' %}">Notifications</a>
+    {% elif user.role == "ADMIN" %}
+        <div class="text-uppercase small text-body-secondary mb-2 px-2">Admin</div>
+        <a class="nav-link {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}" href="{% url 'accounts:admin_dashboard' %}">Dashboard</a>
+        <a class="nav-link {% if request.resolver_match.url_name == 'manage_users' %}active{% endif %}" href="{% url 'accounts:manage_users' %}">Manage Users</a>
+        <a class="nav-link {% if 'threat' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'security:threat_list' %}">Threat Database</a>
+        <a class="nav-link {% if request.resolver_match.url_name == 'admin_logs' %}active{% endif %}" href="{% url 'security:admin_logs' %}">Scan Logs</a>
+        <a class="nav-link {% if request.resolver_match.url_name == 'admin_analytics' %}active{% endif %}" href="{% url 'security:admin_analytics' %}">Analytics</a>
+        <a class="nav-link {% if request.resolver_match.url_name == 'admin_log_analysis' %}active{% endif %}" href="{% url 'security:admin_log_analysis' %}">Log Analysis</a>
+        <a class="nav-link {% if request.resolver_match.url_name == 'admin_reports' %}active{% endif %}" href="{% url 'security:admin_reports' %}">Reports</a>
+        <a class="nav-link {% if request.resolver_match.url_name == 'send' %}active{% endif %}" href="{% url 'notifications:send' %}">Send Notification</a>
+        <a class="nav-link {% if request.resolver_match.url_name == 'sent_list' %}active{% endif %}" href="{% url 'notifications:sent_list' %}">Sent Notifications</a>
+    {% endif %}
+</nav>
+{% endif %}

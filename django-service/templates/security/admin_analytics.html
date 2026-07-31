@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}Analytics | CyberShield X{% endblock %}
+{% block content %}
+<h2 class="mb-4">Analytics</h2>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card border-secondary-subtle">
+            <div class="card-body">
+                <h6 class="card-title text-body-secondary">Scans by Status</h6>
+                <canvas id="statusChart" height="220"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card border-secondary-subtle">
+            <div class="card-body">
+                <h6 class="card-title text-body-secondary">Scans by Type</h6>
+                <canvas id="typeChart" height="220"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card border-secondary-subtle">
+            <div class="card-body">
+                <h6 class="card-title text-body-secondary">Threat Intel by Severity</h6>
+                <canvas id="severityChart" height="220"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script>
+    const statusData = {{ scans_by_status|safe }};
+    const typeData = {{ scans_by_type|safe }};
+    const severityData = {{ threats_by_severity|safe }};
+
+    const darkGrid = { color: "rgba(255,255,255,0.08)" };
+    const darkTicks = { color: "#9fb0c0" };
+
+    new Chart(document.getElementById("statusChart"), {
+        type: "bar",
+        data: {
+            labels: statusData.map(d => d.status),
+            datasets: [{ label: "Scans", data: statusData.map(d => d.total), backgroundColor: "#0dcaf0" }],
+        },
+        options: {
+            scales: { x: { grid: darkGrid, ticks: darkTicks }, y: { grid: darkGrid, ticks: darkTicks, beginAtZero: true } },
+            plugins: { legend: { display: false } },
+        },
+    });
+
+    new Chart(document.getElementById("typeChart"), {
+        type: "doughnut",
+        data: {
+            labels: typeData.map(d => d.scan_type),
+            datasets: [{ data: typeData.map(d => d.total), backgroundColor: ["#0dcaf0", "#6f42c1"] }],
+        },
+        options: { plugins: { legend: { labels: { color: "#9fb0c0" } } } },
+    });
+
+    new Chart(document.getElementById("severityChart"), {
+        type: "bar",
+        data: {
+            labels: severityData.map(d => d.severity),
+            datasets: [{ label: "Entries", data: severityData.map(d => d.total), backgroundColor: "#bb2d3b" }],
+        },
+        options: {
+            indexAxis: "y",
+            scales: { x: { grid: darkGrid, ticks: darkTicks, beginAtZero: true }, y: { grid: darkGrid, ticks: darkTicks } },
+            plugins: { legend: { display: false } },
+        },
+    });
+</script>
+{% endblock %}

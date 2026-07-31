@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Remove Threat Indicator | CyberShield X{% endblock %}
+{% block content %}
+<h2 class="mb-4">Remove Threat Indicator</h2>
+<p>Are you sure you want to remove <strong>{{ object.indicator }}</strong> from the threat database?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Yes, remove it</button>
+    <a href="{% url 'security:threat_list' %}" class="btn btn-outline-secondary">Cancel</a>
+</form>
+{% endblock %}

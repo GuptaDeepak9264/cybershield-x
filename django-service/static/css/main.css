@@ -1,0 +1,69 @@
+/* CyberShield X - base dark theme tokens.
+   Full dashboard styling arrives in Milestone 2; this file just keeps
+   Milestone 1's auth screens from looking like unstyled Bootstrap. */
+
+body {
+    background-color: #0b0f14;
+    background-image: radial-gradient(circle at top, #101820 0, #0b0f14 60%);
+    min-height: 100vh;
+}
+
+.navbar {
+    background-color: #0e141b;
+}
+
+.card {
+    background-color: #101820;
+}
+
+.app-shell {
+    display: flex;
+    min-height: calc(100vh - 56px);
+}
+
+.sidebar {
+    width: 230px;
+    flex-shrink: 0;
+    background-color: #0e141b;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sidebar .nav-link {
+    color: #9fb0c0;
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 2px;
+}
+
+.sidebar .nav-link:hover {
+    background-color: rgba(13, 202, 240, 0.08);
+    color: #fff;
+}
+
+.sidebar .nav-link.active {
+    background-color: rgba(13, 202, 240, 0.15);
+    color: #0dcaf0;
+    font-weight: 600;
+}
+
+.content-area {
+    flex-grow: 1;
+    min-width: 0;
+}
+
+.stat-card {
+    background-color: #101820;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+}
+
+.badge-severity-LOW { background-color: #495057; }
+.badge-severity-MEDIUM { background-color: #997404; }
+.badge-severity-HIGH { background-color: #bb2d3b; }
+.badge-severity-CRITICAL { background-color: #6f0f1a; }
+
+.badge-status-PENDING { background-color: #495057; }
+.badge-status-CLEAN { background-color: #146c43; }
+.badge-status-SUSPICIOUS { background-color: #997404; }
+.badge-status-MALICIOUS { background-color: #bb2d3b; }
+.badge-status-ERROR { background-color: #495057; }

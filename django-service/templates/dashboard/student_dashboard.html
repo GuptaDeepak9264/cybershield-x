@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Student Dashboard | CyberShield X{% endblock %}
+{% block content %}
+<h2 class="mb-1">Welcome back, {{ user.username }}</h2>
+<p class="text-body-secondary mb-4">Here's where things stand.</p>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="stat-card p-3">
+            <div class="text-body-secondary small">Total Scans</div>
+            <div class="fs-2 fw-semibold">{{ total_scans }}</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card p-3">
+            <div class="text-body-secondary small">Malicious Found</div>
+            <div class="fs-2 fw-semibold text-danger">{{ malicious_count }}</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card p-3">
+            <div class="text-body-secondary small">Security Score</div>
+            {% if security_score %}
+                <div class="fs-2 fw-semibold text-info">{{ security_score.score }}/100</div>
+            {% else %}
+                <div class="fs-6 text-body-secondary">Unavailable</div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card p-3">
+            <div class="text-body-secondary small">Unread Notifications</div>
+            <div class="fs-2 fw-semibold text-info">{{ unread_notifications }}</div>
+        </div>
+    </div>
+</div>
+{% if security_score %}
+<p class="text-body-secondary small mb-4">{{ security_score.explanation }}</p>
+{% endif %}
+
+<div class="d-flex gap-2 mb-4">
+    <a href="{% url 'security:upload_file' %}" class="btn btn-info">Scan a File</a>
+    <a href="{% url 'security:scan_url' %}" class="btn btn-outline-info">Scan a URL</a>
+    <a href="{% url 'security:password_checker' %}" class="btn btn-outline-secondary">Check a Password</a>
+</div>
+
+<h5 class="mb-3">Recent Activity</h5>
+{% if recent_scans %}
+<div class="table-responsive">
+    <table class="table table-dark table-hover align-middle">
+        <thead><tr><th>Type</th><th>Target</th><th>Status</th><th>Submitted</th></tr></thead>
+        <tbody>
+        {% for scan in recent_scans %}
+            <tr>
+                <td>{{ scan.get_scan_type_display }}</td>
+                <td class="text-truncate" style="max-width: 320px;">{{ scan.target }}</td>
+                <td><span class="badge badge-status-{{ scan.status }}">{{ scan.get_status_display }}</span></td>
+                <td class="text-body-secondary small">{{ scan.created_at|date:"M d, H:i" }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<a href="{% url 'security:history' %}" class="small">View full history &rarr;</a>
+{% else %}
+<p class="text-body-secondary">No scans yet - submit a file or URL to get started.</p>
+{% endif %}
+{% endblock %}

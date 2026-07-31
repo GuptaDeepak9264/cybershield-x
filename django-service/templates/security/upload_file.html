@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Scan a File | CyberShield X{% endblock %}
+{% block content %}
+<h2 class="mb-1">Scan a File</h2>
+<p class="text-body-secondary mb-4">Allowed types: pdf, doc, docx, zip, exe, txt, jpg, png &middot; max 25 MB.</p>
+<div class="card border-secondary-subtle" style="max-width: 480px;">
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+                {{ form.file }}
+                {% for error in form.file.errors %}
+                    <div class="text-danger small mt-1">{{ error }}</div>
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-info w-100">Upload &amp; Queue Scan</button>
+        </form>
+    </div>
+</div>
+<div class="alert alert-secondary mt-4">
+    Files are queued as <strong>Pending</strong> until the scanning engine
+    (Milestone 3 / wired in Milestone 5) processes them. Check
+    <a href="{% url 'security:history' %}">Scan History</a> for results.
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}All Reports | CyberShield X{% endblock %}
+{% block content %}
+<h2 class="mb-4">All Reports</h2>
+{% if reports %}
+<div class="table-responsive">
+    <table class="table table-dark table-hover align-middle">
+        <thead><tr><th>User</th><th>Title</th><th>Generated</th></tr></thead>
+        <tbody>
+        {% for report in reports %}
+            <tr>
+                <td>{{ report.user.username }}</td>
+                <td>{{ report.title }}</td>
+                <td class="text-body-secondary small">{{ report.created_at|date:"M d, Y" }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="alert alert-secondary">No reports generated yet.</div>
+{% endif %}
+{% endblock %}

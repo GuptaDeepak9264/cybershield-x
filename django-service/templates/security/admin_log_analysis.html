@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Log Analysis | CyberShield X{% endblock %}
+{% block content %}
+<h2 class="mb-4">Log Analysis</h2>
+
+{% if error %}
+<div class="alert alert-danger">Log analysis service unavailable: {{ error }}</div>
+{% else %}
+
+<div class="card border-secondary-subtle mb-4">
+    <div class="card-body">
+        <h6 class="card-title text-body-secondary">Malicious Rate Anomaly (last 24h vs. 7-day baseline)</h6>
+        {% if anomaly_data.is_anomaly %}
+            <div class="alert alert-danger mb-2">Anomaly detected - malicious scan rate is significantly elevated.</div>
+        {% else %}
+            <div class="alert alert-secondary mb-2">No anomaly detected.</div>
+        {% endif %}
+        <table class="table table-dark table-sm">
+            <tr><td>Last 24h total scans</td><td>{{ anomaly_data.last_24h_total }}</td></tr>
+            <tr><td>Last 24h malicious</td><td>{{ anomaly_data.last_24h_malicious }}</td></tr>
+            <tr><td>Last 24h malicious rate</td><td>{{ anomaly_data.last_24h_malicious_rate }}</td></tr>
+            <tr><td>7-day baseline malicious rate</td><td>{{ anomaly_data.baseline_7day_malicious_rate }}</td></tr>
+        </table>
+        <p class="text-body-secondary small mb-0">{{ anomaly_data.note }}</p>
+    </div>
+</div>
+
+<div class="card border-secondary-subtle">
+    <div class="card-body">
+        <h6 class="card-title text-body-secondary">Risk Keyword Frequency (last 500 scans)</h6>
+        <table class="table table-dark table-sm">
+            <thead><tr><th>Pattern</th><th>Occurrences</th></tr></thead>
+            <tbody>
+            {% for keyword, count in keyword_data.items %}
+                <tr><td>{{ keyword }}</td><td>{{ count }}</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endif %}
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}My Reports | CyberShield X{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">My Reports</h2>
+    <form method="post" action="{% url 'security:generate_report' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-info">Generate New Report</button>
+    </form>
+</div>
+{% if reports %}
+<div class="table-responsive">
+    <table class="table table-dark table-hover align-middle">
+        <thead><tr><th>Title</th><th>Generated</th><th></th></tr></thead>
+        <tbody>
+        {% for report in reports %}
+            <tr>
+                <td>{{ report.title }}</td>
+                <td class="text-body-secondary small">{{ report.created_at|date:"M d, Y" }}</td>
+                <td>
+                    {% if report.file %}
+                        <a href="{{ report.file.url }}" class="btn btn-sm btn-outline-info">Download</a>
+                    {% else %}
+                        <span class="badge text-bg-secondary">Generating</span>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="alert alert-secondary">
+    No reports yet - click "Generate New Report" above to create one from your scan history.
+</div>
+{% endif %}
+{% endblock %}
